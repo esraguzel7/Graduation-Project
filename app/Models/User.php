@@ -45,4 +45,32 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    
+    /**
+     * get user role
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    
+    /**
+     * check user permission for single route name
+     *
+     * @param  mixed $routeName
+     * @return bool
+     */
+    public function hasPermission(string $routeName): bool
+    {
+        // Eğer kullanıcıya ait role yoksa false döner.
+        if (!$this->role) {
+            return false;
+        }
+
+        // Kullanıcının role'ü altında, belirtilen rule'a sahip bir izin var mı?
+        return $this->role->permissions()->where('rule', $routeName)->exists();
+    }
 }
