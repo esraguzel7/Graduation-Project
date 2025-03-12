@@ -145,4 +145,14 @@ class User extends Authenticatable
             ->where('join_date', '>', Carbon::now())
             ->get();
     }
+    
+    /**
+     * cards
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cards()
+    {
+        return $this->hasMany(Card::class, 'user_id');
+    }
 }
