@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -123,4 +124,25 @@ class User extends Authenticatable
         return $this->possitivePointNotes()->where('level', $level)->count();
     }
 
+    /**
+     * reminer
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+    /**
+     * upcomingActivities
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function upcomingActivities()
+    {
+        return $this->activities()
+            ->where('join_date', '>', Carbon::now())
+            ->get();
+    }
 }
