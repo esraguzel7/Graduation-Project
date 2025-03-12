@@ -46,7 +46,7 @@ class User extends Authenticatable
         ];
     }
 
-    
+
     /**
      * get user role
      *
@@ -56,7 +56,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
-    
+
     /**
      * check user permission for single route name
      *
@@ -73,4 +73,54 @@ class User extends Authenticatable
         // Kullanıcının role'ü altında, belirtilen rule'a sahip bir izin var mı?
         return $this->role->permissions()->where('rule', $routeName)->exists();
     }
+
+    /**
+     * get possitive point history for user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function possitivePoint()
+    {
+        return $this->hasMany(PossitivePoint::class, 'user');
+    }
+
+    /**
+     * possitivePointNotes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasManyThrough
+     */
+    public function possitivePointNotes()
+    {
+        return $this->hasManyThrough(
+            PossitivePointNote::class,  // Son model
+            PossitivePoint::class,      // Ara model
+            'user',                     // PossitivePoint tablosunda kullanıcıyı belirten sütun
+            'history',                  // PossitivePointNote tablosunda PossitivePoint kaydını belirten sütun
+            'id',                       // User tablosundaki yerel anahtar
+            'id'                        // PossitivePoint tablosundaki yerel anahtar
+        );
+    }
+
+    /**
+     * getNotesByLevel
+     *
+     * @param  mixed $level
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getNotesByLevel(string $level)
+    {
+        return $this->possitivePointNotes()->where('level', $level)->get();
+    }
+
+    /**
+     * countNotesByLevel
+     *
+     * @param  mixed $level
+     * @return int
+     */
+    public function countNotesByLevel(string $level): int
+    {
+        return $this->possitivePointNotes()->where('level', $level)->count();
+    }
+
 }
