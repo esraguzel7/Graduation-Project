@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\URL;
 
-class Register extends Controller
+class RegisterController extends Controller
 {
     public function show(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
@@ -56,7 +56,7 @@ class Register extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Kayıt başarılı! Lütfen e-postanızı doğrulayın.',
-                'reload' => route('authorization.verification.resend'),
+                'reload' => route('verification.resend'),
             ]);
         } catch (\Exception $e) {
             return response()->json([
