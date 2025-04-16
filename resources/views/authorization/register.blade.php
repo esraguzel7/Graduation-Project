@@ -1,21 +1,21 @@
 @extends('authorization.main')
 
-{{-- Sayfa başlığı --}}
+{{-- Page title --}}
 @section('pagename')
-    Hesap Oluştur
+    Create Account
 @endsection
 
-{{-- Form içeriği --}}
+{{-- Form content --}}
 @section('content')
-    <h4 class="m-0">Tekrar Hoş Geldin!</h4>
-    <p class="mb-5">Turnique hesabına giriş yap.</p>
+    <h4 class="m-0">Create Your Account</h4>
+    <p class="mb-5">Fill in your details below to join Turnique.</p>
 
     <form action="{!! url('/') !!}" class="ajax-form" novalidate>
         <div class="form-group">
-            <label class="text-label" for="user_name">Adınız:</label>
+            <label class="text-label" for="user_name">Your First Name:</label>
             <div class="input-group input-group-merge">
                 <input id="user_name" type="text" name="name" required="" class="form-control form-control-prepended"
-                    placeholder="Adınız">
+                    placeholder="Your First Name">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
                         <span class="far fa-user"></span>
@@ -24,10 +24,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="text-label" for="user_surname">Soyadınız:</label>
+            <label class="text-label" for="user_surname">Your Last Name:</label>
             <div class="input-group input-group-merge">
                 <input id="user_surname" type="text" name="surname" required="" class="form-control form-control-prepended"
-                    placeholder="Soyadınız">
+                    placeholder="Your Last Name">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
                         <span class="far fa-user"></span>
@@ -36,10 +36,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="text-label" for="email_2">E-Posta Adresi:</label>
+            <label class="text-label" for="email_2">Email Address:</label>
             <div class="input-group input-group-merge">
                 <input id="email_2" type="email" name="email" required="" class="form-control form-control-prepended"
-                    placeholder="birisi@mail.com">
+                    placeholder="someone@mail.com">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
                         <span class="far fa-envelope"></span>
@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="text-label" for="phone">Telefon Numaranız:</label>
+            <label class="text-label" for="phone">Your Phone Number:</label>
             <div class="input-group input-group-merge">
                 <input id="phone" type="text" name="phone" required="" class="form-control form-control-prepended"
                     placeholder="+90(555) 555 55 55">
@@ -60,10 +60,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="text-label" for="password">Parola:</label>
+            <label class="text-label" for="password">Password:</label>
             <div class="input-group input-group-merge">
                 <input id="password" type="password" name="password" required="" class="form-control form-control-prepended"
-                    placeholder="Parolanızı girin">
+                    placeholder="Enter your password">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
                         <span class="fa fa-key"></span>
@@ -73,8 +73,8 @@
         </div>
 
         <div class="form-group text-center">
-            <button class="btn btn-primary mb-5" type="submit">Üye Ol</button><br>
-            Zaten bir hesaba sahip misin? <a class="text-body text-underline" href="{!! route('authorization.login.show') !!}">Giriş Yap!</a>
+            <button class="btn btn-primary mb-5" type="submit">Sign Up</button><br>
+            Already have an account? <a class="text-body text-underline" href="{!! route('login') !!}">Log In!</a>
         </div>
     </form>
 @endsection
