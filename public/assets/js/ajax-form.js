@@ -8,6 +8,11 @@ $(document).ready(function () {
 
         var url = $(this).attr('data-action');
         var _this = this;
+        var formData = new FormData(this);
+
+        $(this).find('input[type="checkbox"]').each(function() {
+            formData.set($(this).attr('name'), $(this).is(':checked') ? 1 : 0);
+        });
 
         $.ajax({
             url: url,
@@ -15,7 +20,7 @@ $(document).ready(function () {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            data: new FormData(this),
+            data: formData,
             dataType: 'JSON',
             contentType: false,
             cache: false,
@@ -26,7 +31,11 @@ $(document).ready(function () {
                         $(_this).trigger("reset");
                     }
 
-                    show_message('İşlem Başarılı!', response.message, 'success');
+                    let title = null;
+                    if(response.title)
+                        title = response.title;
+
+                    show_message(title, response.message, 'success');
 
                     if (response.reload == true) {
                         setTimeout(function () {
@@ -38,11 +47,11 @@ $(document).ready(function () {
                         }, 2000);
                     }
                 } else {
-                    show_message('Hata!', response.message, 'error');
+                    show_message('Error!', response.message, 'error');
                 }
             },
             error: function (response) {
-                show_message('Hata!', 'Yanıt alınamadı', 'error');
+                show_message('Error!', 'No response received', 'error');
             }
         });
     });
