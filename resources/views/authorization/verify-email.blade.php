@@ -1,14 +1,14 @@
 @extends('authorization.main')
 
-{{-- Sayfa başlığı --}}
+{{-- Page Title --}}
 @section('pagename')
-    Giriş Yap
+    Login
 @endsection
 
-{{-- Form içeriği --}}
+{{-- Form content --}}
 @section('content')
-    <h4 class="m-0">E-Posta Doğrulaması Gerekli!</h4>
-    <p class="mb-5">Hesabını aktifleştirmek için doğrulamayı tamamlayın.</p>
+    <h4 class="m-0">Email Verification Required!</h4>
+    <p class="mb-5">Complete the verification to activate your account.</p>
 
     @if (session('message'))
         <div class="alert alert-success">
@@ -17,6 +17,6 @@
     @endif
 
     <form class="ajax-form" method="POST">
-        <button type="submit" class="btn btn-primary">Doğrulama E-postasını Yeniden Gönder</button>
+        <button type="submit" class="btn btn-primary">Resend Verification Email</button>
     </form>
 @endsection
