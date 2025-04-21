@@ -1,21 +1,21 @@
 @extends('authorization.main')
 
-{{-- Sayfa başlığı --}}
+{{-- Page Title --}}
 @section('pagename')
-    E-Posta Doğrulama
+    Email Verification
 @endsection
 
-{{-- İçerik --}}
+{{-- Content --}}
 @section('content')
-    <h4 class="m-0">{{ $status ? 'E-Posta Başarıyla Doğrulandı!' : 'E-Posta Doğrulaması Gerekli!' }}</h4>
+    <h4 class="m-0">{{ $status ? 'Email Verified Successfully!' : 'Email Verification Required!' }}</h4>
     <p class="mb-5">{{ $message }}</p>
 
     @if ($status)
-        <a href="{{ url('/') }}" class="btn btn-success">Anasayfaya Git</a>
+        <a href="{{ url('/') }}" class="btn btn-success">Go to Homepage</a>
     @else
         <form class="ajax-form" method="POST" action="{{ route('verification.resend') }}">
             @csrf
-            <button type="submit" class="btn btn-primary">Doğrulama E-postasını Yeniden Gönder</button>
+            <button type="submit" class="btn btn-primary">Resend Verification Email</button>
         </form>
     @endif
 @endsection
