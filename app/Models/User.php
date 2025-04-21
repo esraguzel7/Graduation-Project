@@ -51,6 +51,16 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    public function get_shortname()
+    {
+        return strtoupper($this->name[0] . $this->surname[0] ?? '');
+    }
+
+    public function get_fullname()
+    {
+        return $this->name . (empty($this->surname) ? '' : ' ' . $this->surname);
+    }
+
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail());
