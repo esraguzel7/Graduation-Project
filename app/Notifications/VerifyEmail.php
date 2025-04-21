@@ -11,7 +11,7 @@ class VerifyEmail extends BaseVerifyEmail
     public function toMail($notifiable)
     {
         $verificationUrl = URL::temporarySignedRoute(
-            'authorization.verification.verify',
+            'verification.verify',
             now()->addMinutes(60),
             ['id' => $notifiable->getKey(), 'hash' => sha1($notifiable->getEmailForVerification())]
         );
