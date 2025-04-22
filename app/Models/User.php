@@ -173,4 +173,19 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Card::class, 'user_id');
     }
+
+    /**
+     * wallets
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function wallets()
+    {
+        return $this->hasMany(Wallet::class);
+    }
+
+    public function cardRequests()
+    {
+        return $this->hasMany(CardRequest::class);
+    }
 }
