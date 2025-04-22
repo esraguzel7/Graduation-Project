@@ -149,7 +149,16 @@
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb mb-0">
                                         <li class="breadcrumb-item"><a href="{!! url('/') !!}">Home</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                                        @if (isset($breadcrumb))
+                                            @foreach ($breadcrumb as $key => $value)
+                                                @if (array_key_last($breadcrumb) == $key)
+                                                    <li class="breadcrumb-item active" aria-current="page">
+                                                        {{ $value }}</li>
+                                                @else
+                                                    <li class="breadcrumb-item" aria-current="page"><a href="{{ $value }}">{{ $key }}</a></li>
+                                                @endif
+                                            @endforeach
+                                        @endif
                                     </ol>
                                 </nav>
                                 <h1 class="m-0">Dashboard</h1>
@@ -225,7 +234,7 @@
                                             </a>
                                         </li>
                                         <li class="sidebar-menu-item">
-                                            <a class="sidebar-menu-button" href="#">
+                                            <a class="sidebar-menu-button" href="{!! route('card.ordernewcard.show') !!}">
                                                 <span class="sidebar-menu-text">Order New Card</span>
                                             </a>
                                         </li>
@@ -236,7 +245,8 @@
                                         </li>
                                         <li class="sidebar-menu-item">
                                             <a class="sidebar-menu-button" href="#">
-                                                <span class="sidebar-menu-text text-danger"><i class="fa fa-exclamation mr-2"></i> Report Lost Card</span>
+                                                <span class="sidebar-menu-text text-danger"><i
+                                                        class="fa fa-exclamation mr-2"></i> Report Lost Card</span>
                                             </a>
                                         </li>
                                     </ul>
