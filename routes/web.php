@@ -7,44 +7,52 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     Route::group(['namespace' => 'Authorization'], function () {
 
-        Route::get('/email/verify/{id}/{hash}', 'Register@verify_mail')->name('authorization.verification.verify');
-        Route::get('/email/verification-notification', 'Register@wait_verify')->name('authorization.verification.resend');
-        Route::post('/email/verification-notification', 'Register@resend_verification')->name('authorization.verification.resend.perform');
+        Route::get('/email/verify/{id}/{hash}', 'RegisterController@verify_mail')->name('verification.verify');
+        Route::get('/email/verification-notification', 'RegisterController@wait_verify')->name('verification.resend');
+        Route::post('/email/verification-notification', 'RegisterController@resend_verification')->name('verification.resend.perform');
 
         Route::group(['middleware' => ['guest']], function () {
             /**
              * Register Routes
              */
-            Route::get('/register', 'Register@show')->name('authorization.register.show');
-            Route::post('/register', 'Register@register')->name('authorization.register.perform');
+            Route::get('/register', 'RegisterController@show')->name('register.show');
+            Route::post('/register', 'RegisterController@register')->name('register.perform');
 
             /**
              * Login Routes
              */
-            Route::get('/login', 'Login@show')->name('authorization.login.show');
-            // Route::post('/login', 'Login@login')->name('authorization.login.perform');
+            Route::get('/login', 'LoginController@show')->name('login');
+            Route::post('/login', 'LoginController@login')->name('login.perform');
 
-        });
-
-
-        /**
-         * Home Routes
-         */
-        Route::get('/', function () {
-            return redirect()->route('authorization.login.show');
+            /**
+             * Home Routes
+             */
+            // Route::get('/', function () {
+            //     return redirect()->route('login.show');
+            // });
         });
     });
+
+
+    Route::get('/', 'HomeController@guest_show')->name('home.show');
+
+    
+    #========================================
+    #============= panel pages ==============
+    #========================================
 
     Route::group(['middleware' => ['auth']], function () {
         // Başarılı Giriş
 
+        Route::group(['namespace' => 'Authorization'], function () {
+            Route::get('/logout', 'LogoutController@perform')->name('logout');
+        });
 
 
         Route::group(['middleware' => ['verified']], function () {
             // Onaylı hesaplar
 
-            Route::get('/', 'Home@show')->name('home.show');
-
+            Route::get('/', 'HomeController@show')->name('home.show');
         });
     });
 
