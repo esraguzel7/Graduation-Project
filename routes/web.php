@@ -36,7 +36,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     Route::get('/', 'HomeController@guest_show')->name('home.show');
 
-    
+
     #========================================
     #============= panel pages ==============
     #========================================
@@ -53,6 +53,28 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
             // Onaylı hesaplar
 
             Route::get('/', 'HomeController@show')->name('home.show');
+
+            /**
+             * Card Routes
+             */
+            Route::group(['namespace' => 'Card'], function () {
+                Route::get('/order-new-card', 'OrderNewCardController@show')->name('card.ordernewcard.show');
+                Route::post('/order-new-card', 'OrderNewCardController@order')->name('card.ordernewcard.perform');
+            });
+
+            /**
+             * Wallet Routes
+             */
+            Route::group(['namespace' => 'Wallet'], function () {
+                Route::get('/wallet/{id}', 'WalletController@show')->name('wallet.show');
+                Route::post('/wallet/{id}', 'WalletController@payment')->name('wallet.payment.perform');
+
+
+                Route::get('/create-wallet', 'CreateWalletController@show')->name('wallet.create.show');
+                Route::post('/create-wallet', 'CreateWalletController@create')->name('wallet.create.perform');
+
+                Route::get('/my-wallets', 'MyWalletsController@show')->name('wallet.mywallets.show');
+            });
         });
     });
 
