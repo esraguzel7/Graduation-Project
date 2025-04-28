@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $page ?? 'Not Found' }}</title>
 
     <!-- Prevent the demo from appearing in search engines -->
@@ -31,8 +32,14 @@
     <link type="text/css" href="{!! asset('assets/css/vendor-flatpickr-airbnb.css') !!}" rel="stylesheet">
     <link type="text/css" href="{!! asset('assets/css/vendor-flatpickr-airbnb.rtl.css') !!}" rel="stylesheet">
 
+    <!-- Toastr -->
+    <link type="text/css" href="{!! asset('assets/vendor/toastr.min.css') !!}" rel="stylesheet">
+
     <!-- Vector Maps -->
     <link type="text/css" href="{!! asset('assets/vendor/jqvmap/jqvmap.min.css') !!}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link type="text/css" href="{!! asset('assets/css/custom.css') !!}" rel="stylesheet">
 </head>
 
 <body class="layout-default">
@@ -161,8 +168,13 @@
                                         @endif
                                     </ol>
                                 </nav>
-                                <h1 class="m-0">Dashboard</h1>
+                                <h1 class="m-0">{{ $page ?? 'Not Defined' }}</h1>
                             </div>
+                            @if (isset($breadcrumb_button))
+                                @foreach ($breadcrumb_button as $key => $value)
+                                    <a href="{{ $value }}" class="btn btn-success ml-3">{{ $key }} <i class="material-icons">add</i></a>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
 
@@ -251,6 +263,33 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" data-toggle="collapse" href="#wallets_menu">
+                                        <i class="sidebar-menu-icon sidebar-menu-icon--left fa fa-wallet"></i>
+                                        <span class="sidebar-menu-text">My Wallets</span>
+                                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                    </a>
+                                    <ul class="sidebar-submenu collapse" id="wallets_menu">
+                                        <li class="sidebar-menu-item">
+                                            <a class="sidebar-menu-button" href="{!! route('wallet.mywallets.show') !!}">
+                                                <span class="sidebar-menu-text">List My Wallets</span>
+                                            </a>
+                                        </li>
+                                        @foreach (Auth::user()->wallets as $wallet)
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="{!! route('wallet.show', $wallet->id) !!}">
+                                                    <span class="sidebar-menu-text"><i class="fa fa-arrow-right mr-2"></i> {{ $wallet->name }}</span>
+                                                    <span class="badge badge-secondary ml-auto">#{{ $wallet->id }}</span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                        <li class="sidebar-menu-item">
+                                            <a class="sidebar-menu-button" href="#">
+                                                <span class="sidebar-menu-text">Wallet Transactions</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
                             <div class="sidebar-heading">Events</div>
                             <div class="sidebar-block p-0">
@@ -325,6 +364,9 @@
     <!-- App Charts JS -->
     <script src="{!! asset('assets/js/charts.js') !!}"></script>
 
+    <!-- jQuery Mask Plugin -->
+    <script src="{!! asset('assets/vendor/jquery.mask.min.js') !!}"></script>
+
     <!-- Chart Samples -->
     <script src="{!! asset('assets/js/page.dashboard.js') !!}"></script>
 
@@ -332,6 +374,10 @@
     <script src="{!! asset('assets/vendor/jqvmap/jquery.vmap.min.js') !!}"></script>
     <script src="{!! asset('assets/vendor/jqvmap/maps/jquery.vmap.world.js') !!}"></script>
     <script src="{!! asset('assets/js/vector-maps.js') !!}"></script>
+
+    <script src="{!! asset('assets/vendor/toastr.min.js') !!}"></script>
+    <script src="{!! asset('assets/js/ajax-form.js') !!}"></script>
+    <script src="{!! asset('assets/js/custom-logined.js') !!}"></script>
 
 </body>
 
