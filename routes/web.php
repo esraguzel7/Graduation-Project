@@ -74,6 +74,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
                 Route::post('/create-wallet', 'CreateWalletController@create')->name('wallet.create.perform');
 
                 Route::get('/my-wallets', 'MyWalletsController@show')->name('wallet.mywallets.show');
+
+                
+                Route::get('/wallet-general-transactions', 'WalletGeneralTransactionsController@show')->name('wallet.generaltransactions.show');
             });
         });
     });
