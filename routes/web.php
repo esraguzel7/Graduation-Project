@@ -25,6 +25,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
             Route::post('/login', 'LoginController@login')->name('login.perform');
 
             /**
+             * Forgot Password Routes
+             */
+            Route::get('/password/reset', 'ForgotPasswordController@show')->name('password.request');
+            Route::post('/password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email.perform');
+            Route::get('/password/reset/{token}', 'ResetPasswordController@show')->name('password.reset');
+            Route::post('/password/reset', 'ResetPasswordController@reset')->name('password.reset.perform');
+
+            /**
              * Home Routes
              */
             // Route::get('/', function () {
@@ -74,6 +82,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
                 Route::post('/create-wallet', 'CreateWalletController@create')->name('wallet.create.perform');
 
                 Route::get('/my-wallets', 'MyWalletsController@show')->name('wallet.mywallets.show');
+
+                
+                Route::get('/wallet-general-transactions', 'WalletGeneralTransactionsController@show')->name('wallet.generaltransactions.show');
             });
         });
     });

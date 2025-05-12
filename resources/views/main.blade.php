@@ -284,7 +284,7 @@
                                             </li>
                                         @endforeach
                                         <li class="sidebar-menu-item">
-                                            <a class="sidebar-menu-button" href="#">
+                                            <a class="sidebar-menu-button" href="{!! route('wallet.generaltransactions.show') !!}">
                                                 <span class="sidebar-menu-text">Wallet Transactions</span>
                                             </a>
                                         </li>

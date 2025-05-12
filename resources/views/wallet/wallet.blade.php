@@ -83,7 +83,7 @@
                 <div class="px-4 pt-3">
                     <h4 class="mb-4">Transaction History</h4>
                     <ul class="timeline">
-                        @forelse ($wallet->transactions()->latest()->limit(15)->get() as $transaction)
+                        @forelse ($wallet->transactions()->latest()->paginate(15) as $transaction)
                             <li class="timeline-item {{ $transaction->amount > 0 ? 'item-green' : 'item-red' }}">
                                 <div class="timeline-item-header">
                                     <strong>{{ $transaction->created_at->format('d M Y H:i') }}</strong>
@@ -105,6 +105,12 @@
                             </li>
                         @endforelse
                     </ul>
+
+                    <div class="d-flex justify-content-center mt-4">
+                        <div class="pagination-rounded">
+                            {{ $wallet->transactions()->latest()->paginate(15)->links('pagination::bootstrap-4') }}
+                        </div>
+                    </div>
                 </div>
 
             </div>
