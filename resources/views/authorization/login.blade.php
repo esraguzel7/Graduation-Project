@@ -45,7 +45,7 @@
 
         <div class="form-group text-center">
             <button class="btn btn-primary mb-5" type="submit">Login</button><br>
-            <a href="">Forgot your password?</a> <br>
+            <a href="{!! route('password.request') !!}">Forgot your password?</a> <br>
             Need an account? <a class="text-body text-underline" href="{!! route('register.show') !!}">Sign Up!</a>
         </div>
     </form>
