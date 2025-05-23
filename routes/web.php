@@ -31,13 +31,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
             Route::post('/password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email.perform');
             Route::get('/password/reset/{token}', 'ResetPasswordController@show')->name('password.reset');
             Route::post('/password/reset', 'ResetPasswordController@reset')->name('password.reset.perform');
-
-            /**
-             * Home Routes
-             */
-            // Route::get('/', function () {
-            //     return redirect()->route('login.show');
-            // });
         });
     });
 
