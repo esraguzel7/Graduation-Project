@@ -14,6 +14,7 @@ class CardRequest extends Model
         'reason',
         'card_type',
         'wallet_id',
+        'status',
     ];
 
     public function user()

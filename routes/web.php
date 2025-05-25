@@ -61,6 +61,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
             Route::group(['namespace' => 'Card'], function () {
                 Route::get('/order-new-card', 'OrderNewCardController@show')->name('card.ordernewcard.show');
                 Route::post('/order-new-card', 'OrderNewCardController@order')->name('card.ordernewcard.perform');
+
+                Route::post('/card-request-cancel', 'CardRequestController@cancel')->name('card.request.cancel');
             });
 
             /**
