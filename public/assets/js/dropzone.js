@@ -1887,8 +1887,9 @@ __webpack_require__(/*! core-js/modules/es6.regexp.split */ "./node_modules/core
   $('[data-toggle="dropzone"]').each(function () {
     var element = $(this);
     var template = element.find('.dz-preview');
-    var isMultiple = void 0 !== element.data('dropzone-multiple');
-    var currentFile = void 0;
+    var isMultiple = element.data('dropzone-multiple') !== undefined;
+    var currentFile = null;
+    var csrfToken = $('meta[name="csrf-token"]').attr('content'); // Get CSRF token from meta tag
     var options = {
       url: element.data("dropzone-url"),
       thumbnailWidth: null,
@@ -1897,8 +1898,11 @@ __webpack_require__(/*! core-js/modules/es6.regexp.split */ "./node_modules/core
       previewTemplate: template.html(),
       maxFiles: isMultiple ? null : 1,
       acceptedFiles: 'image/*',
-      clickable: void 0 !== element.data('dropzone-clickable') ? element.data('dropzone-clickable') : true,
-      init: function init() {
+      clickable: element.data('dropzone-clickable') !== undefined ? element.data('dropzone-clickable') : true,
+      headers: {
+        'X-CSRF-TOKEN': csrfToken // Add CSRF token to headers
+      },
+      init: function () {
         this.on('addedfile', function (file) {
           if (!isMultiple && currentFile) {
             this.removeFile(currentFile);
@@ -1910,10 +1914,10 @@ __webpack_require__(/*! core-js/modules/es6.regexp.split */ "./node_modules/core
           this.removeAllFiles();
           this.addFile(file);
         });
-        var filesOnServer = element.data('dropzone-files');
+        var filesOnServer = element.data('dropzone-files') || [];
         var dzInstance = this;
         filesOnServer.forEach(function (file, index) {
-          mockFile(file, dzInstance, index >= (filesOnServer.length - 1) / 2);
+          mockFile(file, dzInstance, index >= Math.floor((filesOnServer.length - 1) / 2));
         });
       }
     };

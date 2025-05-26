@@ -10,9 +10,26 @@ $(document).ready(function () {
         var _this = this;
         var formData = new FormData(this);
 
-        $(this).find('input[type="checkbox"]').each(function() {
+        // Include checkbox values
+        $(this).find('input[type="checkbox"]').each(function () {
             formData.set($(this).attr('name'), $(this).is(':checked') ? 1 : 0);
         });
+
+        try {
+            // Include Dropzone files
+            if (Dropzone.instances.length > 0) {
+                Dropzone.instances.forEach(function (dropzone) {
+                    dropzone.files.forEach(function (file) {
+                        if (file.status === Dropzone.SUCCESS || file.status === Dropzone.ADDED) {
+                            formData.append('medias[]', file);
+                        }
+                    });
+                });
+            }
+        } catch (error) {
+
+        }
+
 
         $.ajax({
             url: url,
@@ -32,7 +49,7 @@ $(document).ready(function () {
                     }
 
                     let title = null;
-                    if(response.title)
+                    if (response.title)
                         title = response.title;
 
                     show_message(title, response.message, 'success');
