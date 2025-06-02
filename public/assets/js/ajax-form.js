@@ -20,16 +20,19 @@ $(document).ready(function () {
             if (Dropzone.instances.length > 0) {
                 Dropzone.instances.forEach(function (dropzone) {
                     dropzone.files.forEach(function (file) {
-                        if (file.status === Dropzone.SUCCESS || file.status === Dropzone.ADDED) {
+                        if (file.status === Dropzone.SUCCESS && file.existing === true) {
+                            // Already uploaded file, send its reference
+                            formData.append('existing_media_ids[]', file.upload.uuid);
+                        } else if (file.status === Dropzone.ADDED) {
+                            // New file, append it for upload
                             formData.append('medias[]', file);
                         }
                     });
                 });
             }
         } catch (error) {
-
+            
         }
-
 
         $.ajax({
             url: url,

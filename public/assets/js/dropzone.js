@@ -1889,41 +1889,137 @@ __webpack_require__(/*! core-js/modules/es6.regexp.split */ "./node_modules/core
     var template = element.find('.dz-preview');
     var isMultiple = element.data('dropzone-multiple') !== undefined;
     var currentFile = null;
-    var csrfToken = $('meta[name="csrf-token"]').attr('content'); // Get CSRF token from meta tag
-    var options = {
-      url: element.data("dropzone-url"),
-      thumbnailWidth: null,
-      thumbnailHeight: null,
-      previewsContainer: template.get(0),
-      previewTemplate: template.html(),
-      maxFiles: isMultiple ? null : 1,
-      acceptedFiles: 'image/*',
-      clickable: element.data('dropzone-clickable') !== undefined ? element.data('dropzone-clickable') : true,
-      headers: {
-        'X-CSRF-TOKEN': csrfToken // Add CSRF token to headers
-      },
-      init: function () {
-        this.on('addedfile', function (file) {
-          if (!isMultiple && currentFile) {
-            this.removeFile(currentFile);
-          }
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    var form = element.closest('form');
 
-          currentFile = file;
+    // 1. media_paths input'u kontrol et, yoksa oluştur
+    var mediaInput = form.find('input[name="media_paths"]');
+    if (mediaInput.length === 0) {
+        mediaInput = $('<input>', {
+            type: 'hidden',
+            name: 'media_paths',
+            value: '[]'
         });
-        this.on('maxfilesexceeded', function (file) {
-          this.removeAllFiles();
-          this.addFile(file);
-        });
-        var filesOnServer = element.data('dropzone-files') || [];
-        var dzInstance = this;
-        filesOnServer.forEach(function (file, index) {
-          mockFile(file, dzInstance, index >= Math.floor((filesOnServer.length - 1) / 2));
-        });
-      }
+        form.append(mediaInput);
+    }
+
+    // 2. media_paths'e ekleme ve silme yardımcı fonksiyonları
+    function getMediaPaths() {
+        try {
+            return JSON.parse(mediaInput.val() || '[]');
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function setMediaPaths(paths) {
+        mediaInput.val(JSON.stringify(paths));
+    }
+
+    function addToMediaPaths(path) {
+      if (!path || path === null || path === "") return;
+  
+        let paths = getMediaPaths();
+        if (!paths.includes(path)) {
+            paths.push(path);
+            setMediaPaths(paths);
+        }
+    }
+  
+
+    function removeFromMediaPaths(path) {
+        let paths = getMediaPaths();
+        paths = paths.filter(p => p !== path);
+        setMediaPaths(paths);
+    }
+
+    var options = {
+        url: element.data("dropzone-url"),
+        thumbnailWidth: null,
+        thumbnailHeight: null,
+        previewsContainer: template.get(0),
+        previewTemplate: template.html(),
+        maxFiles: isMultiple ? null : 1,
+        acceptedFiles: 'image/*',
+        clickable: element.data('dropzone-clickable') !== undefined ? element.data('dropzone-clickable') : true,
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        },
+        init: function () {
+            var dz = this;
+
+            // 3. Dropzone'da önceden yüklenmiş dosyaları göster
+            var filesOnServer = element.data('dropzone-files') || [];
+
+            filesOnServer.forEach(function (filePath) {
+              if (!filePath || typeof filePath !== 'string') return;
+          
+              var fullUrl = '/' + filePath;
+          
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', fullUrl, true);
+          
+              xhr.onload = function () {
+                  if (xhr.status === 200) {
+                      const size = parseInt(xhr.getResponseHeader('Content-Length')) || 123456;
+                      const name = fullUrl.split('/').pop();
+          
+                      const mock = {
+                          name: name,
+                          size: size
+                      };
+          
+                      dz.emit("addedfile", mock);
+                      dz.emit("thumbnail", mock, fullUrl);
+                      dz.emit("complete", mock);
+                      mock.previewElement.classList.add('dz-success', 'dz-complete');
+          
+                      mock._uploadedPath = filePath;
+                      addToMediaPaths(filePath);
+                  }
+              };
+          
+              xhr.onerror = function () {
+                  console.warn('HEAD isteği başarısız:', filePath);
+              };
+          
+              xhr.send();
+            });
+          
+
+            // 4. Yeni dosya eklenirse
+            dz.on('addedfile', function (file) {
+                if (!isMultiple && currentFile) {
+                    dz.removeFile(currentFile);
+                }
+                currentFile = file;
+            });
+
+            dz.on('maxfilesexceeded', function (file) {
+                dz.removeAllFiles();
+                dz.addFile(file);
+            });
+
+            dz.on('success', function (file, response) {
+                if (response.success && response.path) {
+                    file._uploadedPath = response.path;
+                    addToMediaPaths(response.path);
+                }
+            });
+
+            // 5. Dosya silinirse
+            dz.on('removedfile', function (file) {
+                if (file._uploadedPath) {
+                    removeFromMediaPaths(file._uploadedPath);
+                }
+            });
+        }
     };
+
     template.html('');
     element.dropzone(options);
-  });
+});
+
 })();
 
 /***/ }),
