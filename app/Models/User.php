@@ -53,7 +53,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function get_shortname()
     {
-        return strtoupper($this->name[0] . $this->surname[0] ?? '');
+        $firstNameInitial = mb_substr($this->name, 0, 1, 'UTF-8');
+        $surnameInitial = mb_substr($this->surname, 0, 1, 'UTF-8');
+        return mb_strtoupper($firstNameInitial . $surnameInitial, 'UTF-8');
     }
 
     public function get_fullname()
