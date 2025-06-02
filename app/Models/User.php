@@ -157,13 +157,15 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * upcomingActivities
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function upcomingActivities()
     {
-        return $this->activities()
-            ->where('join_date', '>', Carbon::now())
-            ->get();
+        return $this->hasMany(Activity::class, 'user_id')
+            ->whereHas('event', function ($query) {
+                $query->where('planned_date', '>', now()); // Ensure planned_date is in the future
+            })
+            ->with('event'); // Include the related Event model
     }
 
     /**

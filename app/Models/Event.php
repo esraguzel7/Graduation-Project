@@ -22,6 +22,7 @@ class Event extends Model
         'event_cost',
         'image_path',
         'video_path',
+        'created_by',
     ];
 
     /**
@@ -102,5 +103,33 @@ class Event extends Model
         if ($this->video_path && file_exists(public_path($this->video_path))) {
             unlink(public_path($this->video_path));
         }
+    }
+
+    /**
+     * Get the user who created the event.
+     */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Get the short name of the user who created the event.
+     *
+     * @return string|null
+     */
+    public function getCreatorShortnameAttribute()
+    {
+        return $this->creator ? $this->creator->get_shortname() : null;
+    }
+
+    /**
+     * Get the name of the user who created the event.
+     *
+     * @return string|null
+     */
+    public function getCreatorNameAttribute()
+    {
+        return $this->creator ? $this->creator->get_fullname() : null;
     }
 }
