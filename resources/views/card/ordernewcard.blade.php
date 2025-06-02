@@ -19,7 +19,8 @@
                 </p>
             </div>
             <div class="col-lg-8 card-form__body card-body">
-                <form class="ajax-form" method="POST" action="">
+                <form class="ajax-form" method="POST" data-action="{{ route('card.ordernewcard.perform') }}">
+                    @csrf
                     <div class="form-group">
                         <label for="select01">Reason for Request</label>
                         <select id="select01" name="reason" data-toggle="select" class="form-control">
@@ -62,7 +63,7 @@
         </div>
         <div class="card-body p-0">
             @php
-                $cardRequests = \App\Models\CardRequest::where('user_id', Auth::id())->orderBy('created_at', 'asc')->get();
+                $cardRequests = \App\Models\CardRequest::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
             @endphp
 
             @if ($cardRequests->isEmpty())
@@ -77,6 +78,7 @@
                                 <th>Wallet</th>
                                 <th>Status</th>
                                 <th>Requested At</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,11 +92,21 @@
                                             <span class="badge badge-success">Approved</span>
                                         @elseif ($request->status === 'pending')
                                             <span class="badge badge-warning">Pending</span>
+                                        @elseif ($request->status === 'cancelled')
+                                            <span class="badge badge-secondary">Canceled</span>
                                         @else
                                             <span class="badge badge-danger">Rejected</span>
                                         @endif
                                     </td>
                                     <td>{{ $request->created_at->format('d M Y, H:i') }}</td>
+                                    <td>
+                                        @if ($request->status === 'pending')
+                                            <form action="" class="ajax-form" method="post" data-action="{{ route('card.request.cancel', $request->id) }}">
+                                                <input type="hidden" name="id" value="{{ $request->id }}">
+                                                <button type="submit" class="btn btn-link text-danger" onclick="return confirm('Are you sure you want to cancel this request?')">Cancel</button>
+                                            </form>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

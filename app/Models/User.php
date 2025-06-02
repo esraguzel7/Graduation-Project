@@ -53,7 +53,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function get_shortname()
     {
-        return strtoupper($this->name[0] . $this->surname[0] ?? '');
+        $firstNameInitial = mb_substr($this->name, 0, 1, 'UTF-8');
+        $surnameInitial = mb_substr($this->surname, 0, 1, 'UTF-8');
+        return mb_strtoupper($firstNameInitial . $surnameInitial, 'UTF-8');
     }
 
     public function get_fullname()
@@ -155,13 +157,15 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * upcomingActivities
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function upcomingActivities()
     {
-        return $this->activities()
-            ->where('join_date', '>', Carbon::now())
-            ->get();
+        return $this->hasMany(Activity::class, 'user_id')
+            ->whereHas('event', function ($query) {
+                $query->where('planned_date', '>', now()); // Ensure planned_date is in the future
+            })
+            ->with('event'); // Include the related Event model
     }
 
     /**
