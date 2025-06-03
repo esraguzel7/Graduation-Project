@@ -38,6 +38,10 @@
     <!-- Vector Maps -->
     <link type="text/css" href="{!! asset('assets/vendor/jqvmap/jqvmap.min.css') !!}" rel="stylesheet">
 
+    <!-- Dropzone -->
+    <link type="text/css" href="{!! asset('assets/css/vendor-dropzone.css') !!}" rel="stylesheet">
+    <link type="text/css" href="{!! asset('assets/css/vendor-dropzone.rtl.css') !!}" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link type="text/css" href="{!! asset('assets/css/custom.css') !!}" rel="stylesheet">
 </head>
@@ -374,6 +378,10 @@
     <script src="{!! asset('assets/vendor/jqvmap/jquery.vmap.min.js') !!}"></script>
     <script src="{!! asset('assets/vendor/jqvmap/maps/jquery.vmap.world.js') !!}"></script>
     <script src="{!! asset('assets/js/vector-maps.js') !!}"></script>
+
+    <!-- Dropzone -->
+    <script src="{!! asset('assets/vendor/dropzone.min.js') !!}"></script>
+    <script src="{!! asset('assets/js/dropzone.js') !!}"></script>
 
     <script src="{!! asset('assets/vendor/toastr.min.js') !!}"></script>
     <script src="{!! asset('assets/js/ajax-form.js') !!}"></script>
