@@ -397,7 +397,6 @@
 
     <script src="{!! asset('assets/vendor/toastr.min.js') !!}"></script>
     <script src="{!! asset('assets/js/ajax-form.js') !!}"></script>
-    <script src="{!! asset('assets/js/custom-logined.js') !!}"></script>
 
 </body>
 
