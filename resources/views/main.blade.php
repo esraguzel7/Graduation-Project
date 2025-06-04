@@ -70,7 +70,8 @@
 
                         <!-- Navbar Brand -->
                         <a href="{!! url('/') !!}" class="navbar-brand ">
-                            <img class="navbar-brand-icon" src="{!! asset('assets/images/logo-white.svg') !!}" height="40" alt="Turnique">
+                            <img class="navbar-brand-icon" src="{!! asset('assets/images/logo-white.svg') !!}"
+                                height="40" alt="Turnique">
                         </a>
 
                         <form class="search-form d-none d-sm-flex flex" action="index.html">
@@ -164,9 +165,14 @@
                                             @foreach ($breadcrumb as $key => $value)
                                                 @if (array_key_last($breadcrumb) == $key)
                                                     <li class="breadcrumb-item active" aria-current="page">
-                                                        {{ $value }}</li>
+                                                        {{ $value }}
+                                                    </li>
                                                 @else
-                                                    <li class="breadcrumb-item" aria-current="page"><a href="{{ $value }}">{{ $key }}</a></li>
+                                                    <li class="breadcrumb-item" aria-current="page">
+                                                        <a href="{{ $value }}">
+                                                            {{ $key }}
+                                                        </a>
+                                                    </li>
                                                 @endif
                                             @endforeach
                                         @endif
@@ -176,7 +182,8 @@
                             </div>
                             @if (isset($breadcrumb_button))
                                 @foreach ($breadcrumb_button as $key => $value)
-                                    <a href="{{ $value }}" class="btn btn-success ml-3">{{ $key }} <i class="material-icons">add</i></a>
+                                    <a href="{{ $value }}" class="btn btn-success ml-3">{{ $key }} <i
+                                            class="material-icons">add</i></a>
                                 @endforeach
                             @endif
                         </div>
@@ -205,8 +212,8 @@
                                     </span>
                                 </a>
                                 <div class="dropdown ml-auto">
-                                    <a href="#" data-toggle="dropdown" data-caret="false"
-                                        class="text-muted"><i class="material-icons">more_vert</i></a>
+                                    <a href="#" data-toggle="dropdown" data-caret="false" class="text-muted"><i
+                                            class="material-icons">more_vert</i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <div class="dropdown-item-text dropdown-item-text--lh">
                                             <div><strong>{{ auth()->user()->get_fullname() }}</strong></div>
@@ -250,7 +257,8 @@
                                             </a>
                                         </li>
                                         <li class="sidebar-menu-item">
-                                            <a class="sidebar-menu-button" href="{!! route('card.ordernewcard.show') !!}">
+                                            <a class="sidebar-menu-button"
+                                                href="{!! route('card.ordernewcard.show') !!}">
                                                 <span class="sidebar-menu-text">Order New Card</span>
                                             </a>
                                         </li>
@@ -275,20 +283,24 @@
                                     </a>
                                     <ul class="sidebar-submenu collapse" id="wallets_menu">
                                         <li class="sidebar-menu-item">
-                                            <a class="sidebar-menu-button" href="{!! route('wallet.mywallets.show') !!}">
+                                            <a class="sidebar-menu-button"
+                                                href="{!! route('wallet.mywallets.show') !!}">
                                                 <span class="sidebar-menu-text">List My Wallets</span>
                                             </a>
                                         </li>
                                         @foreach (Auth::user()->wallets as $wallet)
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{!! route('wallet.show', $wallet->id) !!}">
-                                                    <span class="sidebar-menu-text"><i class="fa fa-arrow-right mr-2"></i> {{ $wallet->name }}</span>
+                                                <a class="sidebar-menu-button"
+                                                    href="{!! route('wallet.show', $wallet->id) !!}">
+                                                    <span class="sidebar-menu-text"><i class="fa fa-arrow-right mr-2"></i>
+                                                        {{ $wallet->name }}</span>
                                                     <span class="badge badge-secondary ml-auto">#{{ $wallet->id }}</span>
                                                 </a>
                                             </li>
                                         @endforeach
                                         <li class="sidebar-menu-item">
-                                            <a class="sidebar-menu-button" href="{!! route('wallet.generaltransactions.show') !!}">
+                                            <a class="sidebar-menu-button"
+                                                href="{!! route('wallet.generaltransactions.show') !!}">
                                                 <span class="sidebar-menu-text">Wallet Transactions</span>
                                             </a>
                                         </li>
