@@ -311,22 +311,21 @@
                             <div class="sidebar-block p-0">
                                 <ul class="sidebar-menu" id="components_menu">
                                     <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button" href="#">
+                                        <a class="sidebar-menu-button" href="{!! route('events.list') !!}">
                                             <i
-                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons fa fa-calendar-check"></i>
-                                            <span class="sidebar-menu-text">Upcoming Events</span>
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons fa fa-calendar"></i>
+                                            <span class="sidebar-menu-text">Events</span>
                                         </a>
                                     </li>
                                     <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button" href="#">
-                                            <i
-                                                class="sidebar-menu-icon sidebar-menu-icon--left fa fa-calendar-day"></i>
+                                        <a class="sidebar-menu-button" href="{!! route('events.participations') !!}">
+                                            <i class="sidebar-menu-icon sidebar-menu-icon--left fa fa-calendar-day"></i>
                                             <span class="sidebar-menu-text">My Participations</span>
                                         </a>
                                     </li>
 
                                     <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button" href="#">
+                                        <a class="sidebar-menu-button" href="{!! route('events.history') !!}">
                                             <i class="sidebar-menu-icon sidebar-menu-icon--left fa fa-history"></i>
                                             <span class="sidebar-menu-text">My Event History</span>
                                         </a>

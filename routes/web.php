@@ -81,6 +81,29 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
                 
                 Route::get('/wallet-general-transactions', 'WalletGeneralTransactionsController@show')->name('wallet.generaltransactions.show');
             });
+
+            /**
+             * Event Routes
+             */
+            Route::group(['namespace' => 'Event'], function () {
+                Route::get('/events', 'EventController@list')->name('events.list');
+
+                Route::get('/events/{id}/view', 'EventController@show')->name('events.show');
+                Route::post('/events/{id}/view/join', 'EventController@join_perform')->name('events.join.perform');
+                Route::post('/events/{id}/view/leave', 'EventController@leave_perform')->name('events.leave.perform');
+                Route::post('/events/{id}/view/payment', 'EventController@payment_perform')->name('events.payment.perform');
+
+                Route::get('/events/{id}/edit', 'EventController@edit')->name('events.edit');
+                Route::post('/events/{id}/edit', 'EventController@edit_perform')->name('events.edit.perform');
+                Route::post('/events/{id}/delete', 'EventController@delete_perform')->name('events.delete.perform');
+
+                Route::get('/events/create', 'EventController@create')->name('events.create');
+                Route::post('/events/create', 'EventController@create_perform')->name('events.create.perform');
+                
+                Route::get('/events/participations', 'EventController@participations')->name('events.participations');
+                Route::get('/events/history', 'EventController@history')->name('events.history');
+                Route::post('/events/upload-media', 'EventController@uploadMedia')->name('events.uploadMedia');
+            });
         });
     });
 
