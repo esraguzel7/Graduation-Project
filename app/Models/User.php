@@ -163,7 +163,21 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Activity::class, 'user_id')
             ->whereHas('event', function ($query) {
-                $query->where('planned_date', '>', now()); // Ensure planned_date is in the future
+                $query->where('planned_date', '>=', now()); // Ensure planned_date is in the future
+            })
+            ->with('event'); // Include the related Event model
+    }
+
+    /**
+     * activitiesHistory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function activitiesHistory()
+    {
+        return $this->hasMany(Activity::class, 'user_id')
+            ->whereHas('event', function ($query) {
+                $query->where('planned_date', '<', now()); // Ensure planned_date is in the future
             })
             ->with('event'); // Include the related Event model
     }
