@@ -4,7 +4,7 @@
     $page = 'My Participations';
 
     $breadcrumb = [
-        'Events' => '',
+        'Events' => route('events.list'),
         'My Participations',
     ];
 

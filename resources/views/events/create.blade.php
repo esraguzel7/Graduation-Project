@@ -4,7 +4,7 @@
     $page = 'Create New Event';
 
     $breadcrumb = [
-        'Events' => '',
+        'Events' => route('events.list'),
         'Create New Event',
     ];
 @endphp
