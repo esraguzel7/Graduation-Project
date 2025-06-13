@@ -219,7 +219,7 @@
                                             <div><strong>{{ auth()->user()->get_fullname() }}</strong></div>
                                         </div>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item active" href="{!! route('home.show') !!}">Dashboard</a>
+                                        <a class="dropdown-item active" href="{!! route('dashboard.show') !!}">Dashboard</a>
                                         <a class="dropdown-item" href="#">My profile</a>
                                         <a class="dropdown-item" href="#">Edit account</a>
                                         <div class="dropdown-divider"></div>
@@ -237,7 +237,7 @@
                                 </li>
 
                                 <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{!! route('home.show') !!}">
+                                    <a class="sidebar-menu-button" href="{!! route('dashboard.show') !!}">
                                         <i
                                             class="sidebar-menu-icon sidebar-menu-icon--left material-icons">dashboard</i>
                                         <span class="sidebar-menu-text">Dashboard</span>

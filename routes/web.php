@@ -54,6 +54,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
             // Onaylı hesaplar
 
             Route::get('/', 'HomeController@show')->name('home.show');
+            Route::get('/dashboard', 'DashboardController@show')->name('dashboard.show');
 
             /**
              * Card Routes
