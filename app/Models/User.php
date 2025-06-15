@@ -75,7 +75,28 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'role_id'); // Ensure 'role_id' is the correct foreign key
+    }
+
+    /**
+     * Check if the user has a specific role (case-insensitive).
+     *
+     * @param  string  $roleName
+     * @return bool
+     */
+    public function hasRole(string $roleName): bool
+    {
+        return $this->role instanceof Role && strcasecmp($this->role->name, $roleName) === 0;
+    }
+
+    /**
+     * Get the name of the user's role.
+     *
+     * @return string|null
+     */
+    public function getRoleName(): ?string
+    {
+        return $this->role ? $this->role->name : null;
     }
 
     /**
@@ -206,4 +227,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(CardRequest::class);
     }
+
+    
 }

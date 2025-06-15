@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
@@ -49,11 +50,32 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
             Route::get('/logout', 'LogoutController@perform')->name('logout');
         });
 
+        Route::get('/run/{method}', function ($method) {
+            if (Auth::user()->role !== 1) {
+                abort(500);
+            }
+
+            switch ($method) {
+                case 'all':
+                    Artisan::call('migrate', ['--force' => true]);
+                    Artisan::call('db:seed', ['--force' => true]);
+                    return response()->json(['status' => 'success', 'message' => 'Migrations and seeders executed.']);
+                case 'migrate':
+                    Artisan::call('migrate', ['--force' => true]);
+                    return response()->json(['status' => 'success', 'message' => 'Migrations executed.']);
+                case 'seed':
+                    Artisan::call('db:seed', ['--force' => true]);
+                    return response()->json(['status' => 'success', 'message' => 'Seeders executed.']);
+                default:
+                    abort(404);
+            }
+        })->name('run.method');
 
         Route::group(['middleware' => ['verified']], function () {
             // Onaylı hesaplar
 
             Route::get('/', 'HomeController@show')->name('home.show');
+            Route::get('/dashboard', 'DashboardController@show')->name('dashboard.show');
 
             /**
              * Card Routes

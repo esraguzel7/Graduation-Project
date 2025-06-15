@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label for="wallet_description">Wallet Description</label>
                         <textarea name="description" id="wallet_description" class="form-control"
-                            placeholder="Enter wallet description" rows="3" required></textarea>
+                            placeholder="Enter wallet description" rows="3"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Create Wallet</button>
                 </form>
