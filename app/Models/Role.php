@@ -2,20 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    // "roles" tablosu varsayılan olarak kullanılır.
-    // Mass assignment için izin verilen alanlar:
+    use HasFactory;
+
     protected $fillable = ['name'];
 
     /**
-     * Bu role ait tüm kullanıcılar.
+     * Get the users associated with the role.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'role_id'); // Ensure 'role_id' is the correct foreign key
     }
 
     /**
